@@ -1,0 +1,275 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Your Name – Risk analytics projects</title>
+<meta name="description" content="A risk app, a BI dashboard and a Monte Carlo simulation that work together to set project contingency.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,500;12..96,700&family=IBM+Plex+Sans:wght@400;500&display=swap" rel="stylesheet">
+<style>
+:root{
+  --bg:#eef1f4; --surface:#fff; --ink:#14213d; --muted:#4d5b73; --line:#cfd6e0;
+  --accent:#0b6e8a; --accent-ink:#fff; --warn:#c2410c; --bar:#9db7c9;
+  color-scheme:light;
+}
+@media (prefers-color-scheme:dark){
+  :root:not([data-theme="light"]){
+    --bg:#0f1824; --surface:#16233a; --ink:#e8eef6; --muted:#a3b2c7; --line:#2b3b57;
+    --accent:#4cc3e0; --accent-ink:#0f1824; --warn:#f59e6b; --bar:#3d5f7c; color-scheme:dark;
+  }
+}
+*{box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{margin:0;background:var(--bg);color:var(--ink);font:400 1.0625rem/1.6 "IBM Plex Sans",system-ui,sans-serif}
+h1,h2,h3{font-family:"Bricolage Grotesque","IBM Plex Sans",sans-serif;line-height:1.1;margin:0}
+a{color:var(--accent)}
+:focus-visible{outline:3px solid var(--accent);outline-offset:3px}
+.wrap{max-width:68rem;margin:0 auto;padding:0 1.25rem}
+header.top{display:flex;justify-content:space-between;align-items:center;padding:1.25rem 0}
+header.top strong{font-family:"Bricolage Grotesque",sans-serif;font-size:1.15rem}
+nav a{margin-left:1.25rem;color:var(--ink);text-decoration:none}
+nav a:hover{text-decoration:underline}
+/* hero */
+.hero{display:grid;grid-template-columns:1fr 1.25fr;gap:2.5rem;align-items:center;padding:2.5rem 0 4rem}
+.hero h1{font-size:clamp(2.2rem,5vw,3.7rem);font-weight:700;letter-spacing:-.02em}
+.hero p{color:var(--muted);max-width:34rem;margin:1.25rem 0 1.75rem}
+.btns{display:flex;gap:.75rem;flex-wrap:wrap}
+.btn{display:inline-block;padding:.7rem 1.2rem;border-radius:6px;font-weight:500;text-decoration:none;border:1.5px solid var(--accent)}
+.btn.primary{background:var(--accent);color:var(--accent-ink)}
+.btn.ghost{color:var(--accent)}
+.sim{background:var(--surface);border:1px solid var(--line);border-radius:10px;padding:1rem 1rem 1.25rem}
+.sim canvas{width:100%;height:240px;display:block}
+.sim .readout{display:flex;justify-content:space-between;flex-wrap:wrap;gap:.5rem;font-size:.95rem;margin:.5rem 0}
+.sim .readout b{font-size:1.5rem;font-family:"Bricolage Grotesque",sans-serif;color:var(--warn)}
+.ctrl{display:flex;align-items:center;gap:.75rem;flex-wrap:wrap;font-size:.95rem}
+.ctrl input[type=range]{flex:1;min-width:8rem;accent-color:var(--accent)}
+.ctrl button{font:inherit;background:none;color:var(--accent);border:1.5px solid var(--accent);border-radius:6px;padding:.3rem .8rem;cursor:pointer}
+.note{font-size:.85rem;color:var(--muted);margin:.75rem 0 0}
+/* sections */
+section{padding:3.5rem 0;border-top:1px solid var(--line)}
+section>.wrap>h2{font-size:clamp(1.7rem,3.5vw,2.4rem);margin-bottom:.75rem}
+.lede{color:var(--muted);max-width:42rem;margin:0 0 2rem}
+.flow{display:grid;grid-template-columns:repeat(4,1fr);gap:.75rem;list-style:none;padding:0;margin:0}
+.flow li{background:var(--surface);border:1px solid var(--line);border-radius:8px;padding:1rem;position:relative}
+.flow li+li::before{content:"";position:absolute;left:-.75rem;top:50%;width:.75rem;border-top:2px solid var(--accent)}
+.flow b{display:block;font-family:"Bricolage Grotesque",sans-serif;font-size:1.1rem}
+.flow span{font-size:.9rem;color:var(--muted)}
+.proj{display:grid;grid-template-columns:1fr 1.4fr;gap:2rem;padding:2rem 0;border-bottom:1px solid var(--line)}
+.proj:last-child{border-bottom:0}
+.proj h3{font-size:1.6rem;margin-bottom:.5rem}
+.tags{display:flex;flex-wrap:wrap;gap:.4rem;list-style:none;padding:0;margin:.75rem 0 0}
+.tags li{font-size:.85rem;border:1px solid var(--line);background:var(--surface);border-radius:999px;padding:.1rem .7rem}
+.proj ul.feat{margin:0 0 1rem;padding-left:1.1rem}
+.proj ul.feat li{margin-bottom:.4rem}
+.ph{background:var(--surface);border:1.5px dashed var(--line);border-radius:8px;padding:1.5rem;color:var(--muted);text-align:center;font-size:.9rem;margin-bottom:1rem}
+dl.facts{display:grid;grid-template-columns:max-content 1fr;gap:.4rem 1.25rem;margin:0}
+dl.facts dt{font-weight:500}
+dl.facts dd{margin:0;color:var(--muted)}
+footer{padding:2.5rem 0 3rem;border-top:1px solid var(--line);color:var(--muted)}
+@media (max-width:52rem){
+  .hero,.proj{grid-template-columns:1fr}
+  .flow{grid-template-columns:1fr 1fr}
+  .flow li+li::before{display:none}
+  nav a{margin-left:.9rem}
+}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <header class="top">
+    <strong>Your Name</strong>
+    <nav aria-label="Primary">
+      <a href="#projects">Projects</a>
+      <a href="#monte-carlo">Simulation</a>
+      <a href="#contact">Contact</a>
+    </nav>
+  </header>
+
+  <main>
+    <div class="hero">
+      <div>
+        <h1>Putting a number on project risk</h1>
+        <p>I build the tools that capture risks, store them, simulate them and report on them: a risk app with its own database, a Monte Carlo simulation in Python, and a BI dashboard on top.</p>
+        <div class="btns">
+          <a class="btn primary" href="#projects">See the projects</a>
+          <a class="btn ghost" href="#contact">Get in touch</a>
+        </div>
+      </div>
+
+      <div class="sim" role="group" aria-labelledby="simtitle">
+        <strong id="simtitle">Live demo: simulate 12 sample risks</strong>
+        <canvas id="chart" role="img" aria-label="Histogram of simulated total risk cost with a marker at the selected percentile"></canvas>
+        <div class="readout">
+          <span>Contingency at <span id="pLabel">P80</span><br><b id="pValue">$0</b></span>
+          <span>Mean total<br><b style="color:var(--ink)" id="meanValue">$0</b></span>
+        </div>
+        <div class="ctrl">
+          <label for="pct">Percentile</label>
+          <input id="pct" type="range" min="50" max="95" step="5" value="80">
+          <label><input id="corr" type="checkbox"> Correlate risks</label>
+          <button id="rerun" type="button">Re-run</button>
+        </div>
+        <p class="note">Runs in your browser with made-up numbers. Turn on correlation and watch the right tail grow.</p>
+      </div>
+    </div>
+  </main>
+
+  <section id="projects" aria-labelledby="h-proj">
+    <div class="wrap" style="padding:0">
+      <h2 id="h-proj">Three projects, one pipeline</h2>
+      <p class="lede">Each project feeds the next. Stakeholders enter risks, the database keeps them, the simulation prices them, and the dashboard shows what changed.</p>
+      <ol class="flow">
+        <li><b>Risk app</b><span>Stakeholders log risks, probabilities and cost ranges</span></li>
+        <li><b>Database</b><span>One shared source for every project's risk register</span></li>
+        <li><b>Monte Carlo</b><span>Python simulation reads the data and sets contingency</span></li>
+        <li><b>BI dashboard</b><span>Analysis of the app data for decision makers</span></li>
+      </ol>
+
+      <!-- EDIT: replace the bracketed text, links and placeholder boxes -->
+      <article class="proj">
+        <div>
+          <h3>Risk app and database</h3>
+          <p>[One or two sentences: who uses it, what problem it solves, how many risks or projects it holds.]</p>
+          <ul class="tags"><li>[Language / framework]</li><li>[Database]</li><li>[Hosting]</li></ul>
+        </div>
+        <div>
+          <div class="ph">Screenshot of the risk app (use images/risk-app.png)</div>
+          <ul class="feat">
+            <li>[Feature: for example, enter a risk with probability, min, most likely and max cost]</li>
+            <li>[Feature: for example, risk register per project]</li>
+            <li>[Design choice you are proud of: schema, validation, permissions]</li>
+          </ul>
+          <a href="#">Source code</a> &nbsp; <a href="#">Live demo</a>
+        </div>
+      </article>
+
+      <article class="proj">
+        <div>
+          <h3>Risk analytics dashboard</h3>
+          <p>[One or two sentences: which questions it answers and for whom.]</p>
+          <ul class="tags"><li>[Power BI / Tableau / other]</li><li>[Data source]</li></ul>
+        </div>
+        <div>
+          <div class="ph">Screenshot of the dashboard (use images/dashboard.png)</div>
+          <ul class="feat">
+            <li>[Insight: for example, top risks by expected cost across projects]</li>
+            <li>[Insight: for example, risks that materialised versus forecast]</li>
+          </ul>
+          <a href="#">Walkthrough</a>
+        </div>
+      </article>
+
+      <article class="proj" id="monte-carlo">
+        <div>
+          <h3>Monte Carlo contingency simulation</h3>
+          <p>An in-house Python tool that replaces a commercial add-in for setting project contingency. It simulates risk events and estimate uncertainty, then allocates the contingency back to individual risks and cost lines.</p>
+          <ul class="tags"><li>Python</li><li>NumPy / SciPy</li><li>pandas</li><li>PyQt6</li><li>matplotlib</li><li>Excel</li></ul>
+        </div>
+        <div>
+          <dl class="facts">
+            <dt>Risk model</dt><dd>Each risk has a Bernoulli occurrence and a triangular or betaPERT cost impact.</dd>
+            <dt>Correlation</dt><dd>Gaussian copula with a Cholesky factor. Separate matrices for occurrence and impact. Matrices that are not positive semi-definite are repaired automatically.</dd>
+            <dt>Sampling</dt><dd>Latin Hypercube by default, basic random sampling optional. 10,000 iterations by default.</dd>
+            <dt>Estimate uncertainty</dt><dd>Ranges on each cost breakdown line (quantity, unit rate, labour hours and so on), correlated within and between lines.</dd>
+            <dt>Allocation</dt><dd>Contingency at a chosen percentile is split by each item's covariance with the project total, so the main drivers of variation get the most.</dd>
+            <dt>Interface</dt><dd>PyQt6 app to load data, edit correlation matrices, run the simulation and export a histogram and tornado chart to Excel.</dd>
+            <dt>Status</dt><dd>Distributions checked against @Risk. Latin Hypercube, probability ranging and allocation still need validation.</dd>
+          </dl>
+          <p style="margin-top:1rem"><a href="#">Source code</a> &nbsp; <a href="#">User manual (PDF)</a></p>
+        </div>
+      </article>
+    </div>
+  </section>
+
+  <section id="contact" aria-labelledby="h-contact">
+    <div class="wrap" style="padding:0">
+      <h2 id="h-contact">Contact</h2>
+      <p class="lede">[A sentence on what you are looking for: roles, collaborations, questions about the projects.]</p>
+      <a class="btn primary" href="mailto:you@example.com">you@example.com</a>
+      &nbsp; <a href="https://github.com/your-username">GitHub</a>
+      &nbsp; <a href="https://www.linkedin.com/in/your-profile">LinkedIn</a>
+    </div>
+  </section>
+</div>
+<footer><div class="wrap">© <span id="yr"></span> Your Name. Demo data on this page is invented.</div></footer>
+
+<script>
+document.getElementById('yr').textContent = new Date().getFullYear();
+
+// Sample risks: probability, min, most likely, max (dollars)
+const RISKS = [
+  [.20,10e3,25e3,100e3],[.35,5e3,15e3,60e3],[.15,40e3,90e3,250e3],[.40,2e3,8e3,30e3],
+  [.25,20e3,50e3,140e3],[.10,60e3,150e3,400e3],[.30,8e3,20e3,70e3],[.45,3e3,10e3,35e3],
+  [.20,15e3,40e3,120e3],[.12,30e3,80e3,220e3],[.35,6e3,18e3,55e3],[.18,25e3,60e3,180e3]
+];
+const N = 4000, BINS = 44, RHO = 0.6;
+
+const canvas = document.getElementById('chart');
+const ctx = canvas.getContext('2d');
+const pct = document.getElementById('pct');
+const corr = document.getElementById('corr');
+let totals = [];
+
+// Standard normal CDF (Abramowitz–Stegun erf approximation)
+function Phi(x){
+  const t = 1/(1+0.3275911*Math.abs(x)/Math.SQRT2);
+  const y = 1-(((((1.061405429*t-1.453152027)*t)+1.421413741)*t-0.284496736)*t+0.254829592)*t*Math.exp(-x*x/2);
+  return x>=0 ? 0.5*(1+y) : 0.5*(1-y);
+}
+function randn(){ let u=0,v=0; while(!u)u=Math.random(); v=Math.random(); return Math.sqrt(-2*Math.log(u))*Math.cos(2*Math.PI*v); }
+function triInv(u,a,m,b){
+  const f=(m-a)/(b-a);
+  return u<f ? a+Math.sqrt(u*(b-a)*(m-a)) : b-Math.sqrt((1-u)*(b-a)*(b-m));
+}
+function run(){
+  const rho = corr.checked ? RHO : 0, a = Math.sqrt(rho), b = Math.sqrt(1-rho);
+  totals = new Array(N);
+  for(let i=0;i<N;i++){
+    const fo = randn(), fi = randn(); // shared factors link occurrence and impact across risks
+    let sum = 0;
+    for(const [p,lo,ml,hi] of RISKS){
+      const uOcc = Phi(a*fo + b*randn());
+      if(uOcc < p){ sum += triInv(Phi(a*fi + b*randn()),lo,ml,hi); }
+    }
+    totals[i] = sum;
+  }
+  totals.sort((x,y)=>x-y);
+  draw();
+}
+const money = v => '$' + Math.round(v/1000).toLocaleString() + 'k';
+function css(n){ return getComputedStyle(document.documentElement).getPropertyValue(n).trim(); }
+
+function draw(){
+  const dpr = window.devicePixelRatio||1, w = canvas.clientWidth, h = canvas.clientHeight;
+  canvas.width = w*dpr; canvas.height = h*dpr; ctx.setTransform(dpr,0,0,dpr,0,0);
+  ctx.clearRect(0,0,w,h);
+  const p = +pct.value, pv = totals[Math.floor(N*p/100)-1];
+  const max = totals[Math.floor(N*0.995)], bw = max/BINS, counts = new Array(BINS).fill(0);
+  for(const t of totals){ counts[Math.min(BINS-1,Math.floor(t/bw))]++; }
+  const top = Math.max(...counts), padB = 24, plotH = h-padB-8, colW = w/BINS;
+  counts.forEach((c,i)=>{
+    const bh = c/top*plotH, x = i*colW, inTail = (i*bw) >= pv;
+    ctx.fillStyle = inTail ? css('--warn') : css('--bar');
+    ctx.fillRect(x+1, h-padB-bh, colW-2, bh);
+  });
+  const mx = Math.min(w-1, pv/max*w);
+  ctx.strokeStyle = css('--ink'); ctx.lineWidth = 2;
+  ctx.beginPath(); ctx.moveTo(mx,4); ctx.lineTo(mx,h-padB); ctx.stroke();
+  ctx.fillStyle = css('--muted'); ctx.font = '12px "IBM Plex Sans",sans-serif';
+  ctx.textAlign='left'; ctx.fillText('$0', 2, h-6);
+  ctx.textAlign='right'; ctx.fillText(money(max)+' total risk cost', w-2, h-6);
+  document.getElementById('pLabel').textContent = 'P'+p;
+  document.getElementById('pValue').textContent = money(pv);
+  document.getElementById('meanValue').textContent = money(totals.reduce((s,x)=>s+x,0)/N);
+}
+pct.addEventListener('input', draw);
+corr.addEventListener('change', run);
+document.getElementById('rerun').addEventListener('click', run);
+window.addEventListener('resize', draw);
+window.matchMedia('(prefers-color-scheme: dark)').addEventListener('change', draw);
+run();
+</script>
+</body>
+</html>
