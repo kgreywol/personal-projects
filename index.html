@@ -3,7 +3,7 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Your Name – Engineering projects</title>
+<title>Kiran Grey-Wolf – Personal Projects</title>
 <meta name="description" content="Projects in embedded systems, digital design, robotics and data: a Verilog RISC processor, robots, a vestibular stimulator and risk analytics tools.">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -82,15 +82,15 @@ footer{padding:2rem 0 3rem;border-top:2px solid var(--ink);background:var(--bg);
 <body>
 <div class="wrap">
   <header class="top">
-    <strong>Your Name</strong>
+    <strong>Kiran Grey-Wolf</strong>
     <nav aria-label="Primary"><a href="#projects">Projects</a><a href="#about">About</a><a href="#contact">Contact</a></nav>
   </header>
   <main>
     <div class="hero">
       <div>
         <h1>I build things that <span>sense</span> and <span>move</span></h1>
-        <p>[Your degree and school]. I design digital hardware, embedded systems and robots, and I write the software and analysis tools around them.</p>
-        <div class="btns"><a class="btn primary" href="#projects">See the projects</a><a class="btn" href="#contact">Say hello</a></div>
+        <p>B.S. in Electrical Engineering, University of British Columbia. I design digital hardware, embedded systems and robots, and I write the software and analysis tools around them.</p>
+        <div class="btns"><a class="btn primary" href="#projects">See the projects</a><a class="btn" href="#contact">Say hi</a></div>
       </div>
       <div class="bench" role="group" aria-labelledby="bt">
         <canvas id="bot" role="img" aria-label="Simulated self-balancing robot that you can shove"></canvas>
@@ -109,7 +109,7 @@ footer{padding:2rem 0 3rem;border-top:2px solid var(--ink);background:var(--bg);
   <section id="projects" aria-labelledby="hp">
     <div class="wrap" style="padding:0">
       <h2 id="hp">Projects</h2>
-      <p class="lede">School builds, personal builds and software from my work term on a project risk team.</p>
+      <p class="lede">School builds, personal builds and software from my work term on the Hydro One project risk team.</p>
       <div class="filters" role="group" aria-label="Filter projects">
         <button type="button" data-f="all" aria-pressed="true">All</button>
         <button type="button" data-f="hardware" aria-pressed="false">Hardware</button>
@@ -130,51 +130,51 @@ footer{padding:2rem 0 3rem;border-top:2px solid var(--ink);background:var(--bg);
         </article>
 
         <article class="card" data-cat="hardware">
-          <div class="ph">Block diagram or waveform<br>(images/risc.png)</div>
+          <img src="images/risc.jpg" alt="RISC process diagram" style="width:100%;border-radius:3px;border:1.5px solid var(--ink);margin-bottom:1rem">
           <h3>RISC processor in Verilog</h3>
-          <p>[Instruction set, pipeline depth, how you tested it, and whether it runs on an FPGA.]</p>
-          <ul class="tags"><li>Verilog</li><li>[Simulator]</li><li>[FPGA board]</li></ul>
-          <div class="links"><a href="#">Source</a></div>
+          <p>Built over the course of several months and used to add, store, and pull from memory simple arithmetic values. Created and tested a cpu, shifter, decoder and ALU all in SystemVerilog.</p>
+          <ul class="tags"><li>Verilog</li><li>Quartus</li><li>De1 SoC</li></ul>
+          <!-- <div class="links"><a href="#">Source</a></div> -->
         </article>
 
         <article class="card" data-cat="robotics hardware">
-          <div class="ph">Photo of the robot<br>(images/balancer.jpg)</div>
+          <img src="images/self-balancing-robot.png" alt="Self-balancing robot" style="width:100%;border-radius:3px;border:1.5px solid var(--ink);margin-bottom:1rem">
           <h3>Self-balancing robot</h3>
-          <p>A two-wheeled robot that holds itself upright. The demo at the top is a simplified simulation of the same control problem. [Sensors, controller, tuning story.]</p>
-          <ul class="tags"><li>[IMU]</li><li>[PID control]</li><li>[Microcontroller]</li></ul>
-          <div class="links"><a href="#">Video</a><a href="#">Source</a></div>
+          <p>A two-wheeled robot that holds itself upright. The demo at the top is a simplified simulation of the same control problem. </p>
+          <ul class="tags"><li>Arduino Nano 33 BLE</li><li>PID control</li><li>Modelsim</li></ul>
+          <div class="links"><a href="#">Video</a></div>
         </article>
 
         <article class="card" data-cat="robotics hardware">
-          <div class="ph">Photo of the robot<br>(images/detector.jpg)</div>
+          <img src="images/metal_detecting_robot.jpg" alt="Metal-detecting robot" style="width:100%;border-radius:3px;border:1.5px solid var(--ink);margin-bottom:1rem">
           <h3>Metal-detecting robot</h3>
-          <p>[How it detects metal, how it drives and what it does when it finds something.]</p>
-          <ul class="tags"><li>[Coil / sensor]</li><li>[Motor driver]</li><li>[Microcontroller]</li></ul>
+          <p>Robot that uses inductance through a coil to detect metal and is controlled remotely by a MSP430 microcontroller.</p>
+          <ul class="tags"><li>MATLAB</li><li>Soldering</li><li>MSP430</li></ul>
           <div class="links"><a href="#">Video</a><a href="#">Source</a></div>
         </article>
 
         <article class="card" data-cat="software">
-          <div class="ph">Histogram and tornado chart<br>(images/monte-carlo.png)</div>
+          <img src="images/riskMonteCarlo.png" alt="Monte Carlo Simulation" style="width:100%;border-radius:3px;border:1.5px solid var(--ink);margin-bottom:1rem">
           <h3>Monte Carlo simulation</h3>
           <p>A Python tool that simulates project risks and estimate uncertainty to set contingency. It models correlations with a Gaussian copula, samples with Latin Hypercube, allocates contingency by covariance and exports charts to Excel through a PyQt6 app. I checked its distributions against @Risk.</p>
           <ul class="tags"><li class="work">Work term</li><li>Python</li><li>NumPy / SciPy</li><li>pandas</li><li>PyQt6</li></ul>
-          <div class="links"><a href="#">Source</a><a href="#">User manual</a></div>
+          <div class="links"><a href="#">Video</a></div>
         </article>
 
         <article class="card" data-cat="software">
-          <div class="ph">Screenshot of the app<br>(images/risk-app.png)</div>
+          <img src="images/riskApp.png" alt="Risk App" style="width:100%;border-radius:3px;border:1.5px solid var(--ink);margin-bottom:1rem">
           <h3>Risk app and database</h3>
-          <p>[Who uses it, what it records, and how it feeds the simulation.]</p>
-          <ul class="tags"><li class="work">Work term</li><li>[Framework]</li><li>[Database]</li></ul>
-          <div class="links"><a href="#">Source</a></div>
+          <p>I built a risk app and accompanying SharePoint database to store all risk data in one central location. This enabled the risk team to do more complex data analysis along with process automations (automatic emails, mitigation action reminders, etc.).</p>
+          <ul class="tags"><li class="work">Work term</li><li>Data Architecture</li><li>UI Design</li><li>Microsoft Power Platform</li></ul>
+          <div class="links"><a href="#">Video</a></div>
         </article>
 
         <article class="card" data-cat="software">
-          <div class="ph">Screenshot of the dashboard<br>(images/dashboard.png)</div>
+          <img src="images/riskBI.png" alt="Risk BI Dashboard" style="width:100%;border-radius:3px;border:1.5px solid var(--ink);margin-bottom:1rem">
           <h3>Risk analytics dashboard</h3>
-          <p>[Which questions it answers from the risk app data, and for whom.]</p>
-          <ul class="tags"><li class="work">Work term</li><li>[BI tool]</li><li>[Data source]</li></ul>
-          <div class="links"><a href="#">Walkthrough</a></div>
+          <p>Built a dashboard to help analyze risk data, can now show how much money we spend on individual risks, if allocated contingency is being used, and at was point along the projects completion timeline is the contingency used.</p>
+          <ul class="tags"><li class="work">Work term</li><li>BI tool</li><li>SharePoint Lists</li></ul>
+          <div class="links"><a href="#">Video</a></div>
         </article>
       </div>
     </div>
@@ -184,14 +184,14 @@ footer{padding:2rem 0 3rem;border-top:2px solid var(--ink);background:var(--bg);
     <div class="wrap about" style="padding-top:0;padding-bottom:0">
       <div>
         <h2 id="ha">About</h2>
-        <p>[Two or three sentences in your own voice: what you study, what you like building, and what you are looking for next.]</p>
-        <p>My work term on a project risk team taught me to turn messy data into decisions. I enjoy that, but hardware is where I want to build my career. [Edit to match your goals.]</p>
+        <p>I am a Electrical Engineering Graduate from the University of British Columbia. I am a hard working curious individual in search for a postion that will contantly teach me new things.</p>
+        <p>My work term on the Hydro One project risk team taught me to apply myself independently. I am searching for opportunities that will challange me further.</p>
       </div>
       <ul>
-        <li>Digital design</li><li>Verilog, [FPGA tools]</li>
-        <li>Embedded</li><li>[C / C++], [microcontrollers]</li>
+        <li>Digital design</li><li>Verilog, Quartus</li>
+        <li>Embedded</li><li>C / C++, MSP430, Arduino, De1 SoC</li>
         <li>Software</li><li>Python, NumPy, pandas, PyQt6, matplotlib</li>
-        <li>Tools</li><li>[Oscilloscope, soldering, CAD, Git]</li>
+        <li>Tools</li><li>Oscilloscope, soldering, CAD, Git</li>
       </ul>
     </div>
   </section>
@@ -199,13 +199,13 @@ footer{padding:2rem 0 3rem;border-top:2px solid var(--ink);background:var(--bg);
   <section id="contact" aria-labelledby="hc">
     <div class="wrap" style="padding:0">
       <h2 id="hc">Contact</h2>
-      <p class="lede">[A sentence about what you are looking for: roles, collaborations, questions about the builds.]</p>
-      <a class="btn primary" href="mailto:you@example.com">you@example.com</a>
-      &nbsp; <a href="https://github.com/your-username">GitHub</a> &nbsp; <a href="https://www.linkedin.com/in/your-profile">LinkedIn</a>
+      <p class="lede">I am currently looking for opportunities to apply my skills in software development and embedded systems.</p>
+      <a class="btn primary" href="mailto:kiran@grey-wolf.ca">kiran@grey-wolf.ca</a>
+      &nbsp; <a href="https://github.com/kgreywol">GitHub</a> &nbsp; <a href="https://www.linkedin.com/in/kiran-grey-wolf-4245232b8/">LinkedIn</a>
     </div>
   </section>
 </div>
-<footer><div class="wrap">© <span id="yr"></span> Your Name</div></footer>
+<footer><div class="wrap">© <span id="yr"></span> Kiran Grey-Wolf</div></footer>
 
 <script>
 document.getElementById('yr').textContent = new Date().getFullYear();
